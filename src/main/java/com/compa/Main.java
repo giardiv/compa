@@ -10,5 +10,4 @@ public class Main extends AbstractVerticle {
                 .requestHandler(req -> req.response().end("Hello Vert.x!"))
                 .listen(8080);
     }
-
 }
