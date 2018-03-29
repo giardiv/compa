@@ -1,5 +1,6 @@
 package main.compa;
 
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
@@ -7,16 +8,25 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 
-public class Main {
+public class Main extends AbstractVerticle{
 	
-	public static void main(String... args){
+	public static void main(String... args) {
+		Container.getInstance().run();
+	}
+
+	private static void test(){
 			
 		Vertx vertx = Vertx.vertx();
 		HttpServer server = vertx.createHttpServer();
 		Router router = Router.router(vertx);
 
-		
-		
+		server.requestHandler(router::accept).listen(8080);
+
+
+		Route postLocation = router.route("/gps").handler(routingContext -> {
+
+		});
+
 		//NEXT
 		Route route1 = router.route("/some/path/").handler(routingContext -> {
 	
@@ -40,8 +50,6 @@ public class Main {
 		  // Call the next matching route after a 5 second delay
 		  routingContext.vertx().setTimer(5000, tid -> routingContext.next());
 		});
-	
-		server.requestHandler(router::accept).listen(8080);
 		
 
 		Route route3 = router.route("/some/path/").handler(routingContext -> {
